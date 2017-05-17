@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="@string/regidter_hint"
+                android:textAllCaps="false"
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/text_big_size"
+                android:textStyle="bold" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/MyEditTextTheme"
+                app:hintTextAppearance="@style/FloatingLabel">
+
+                <EditText
+                    android:id="@+id/name_edit_text"
+                    style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:drawableStart="@drawable/ic_action_person"
+                    android:hint="@string/name_hint"
+                    android:inputType="textAutoComplete"
+                    android:singleLine="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="@dimen/text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:weightSum="4">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/ic_action_place" />
+
+
+
+                <Spinner
+                    android:id="@+id/country_spinner"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog" />
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/MyEditTextTheme"
+                app:hintTextAppearance="@style/FloatingLabel">
+
+                <EditText
+                    android:id="@+id/phone_number_register"
+                    style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:drawableStart="@drawable/ic_action_call_drk"
+                    android:hint="@string/mobile_number_hint"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="@dimen/text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/MyEditTextTheme"
+                app:hintTextAppearance="@style/FloatingLabel">
+
+                <EditText
+                    android:id="@+id/password_register_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="2"
+                    android:drawableStart="@drawable/ic_action_secure"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="@dimen/text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/MyEditTextTheme"
+                app:hintTextAppearance="@style/FloatingLabel">
+
+                <EditText
+                    android:id="@+id/repeat_password_register_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="2"
+                    android:drawableStart="@drawable/ic_action_secure"
+                    android:hint="@string/repeat_password_hint"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="@dimen/text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:weightSum="3">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/ic_action_male_female" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/text_size"
+                    android:layout_weight="2.5"
+                    android:text="@string/gender_hint"
+                    android:textSize="@dimen/text_size" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="Male"
+                        android:textColor="@color/black" />
+
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Female"
+                        android:textColor="@color/black" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/birth_day"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:weightSum="4">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_go_to_today" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3.99"
+                    android:text="@string/brith_date_hint" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/ic_arrow_down_drop_circle_outline" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/sign_up_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button"
+                android:elevation="5dp"
+                android:padding="15dp"
+                android:text="@string/singup_hint"
+                android:textAllCaps="false"
+                android:textColor="#ffff"
+                android:textSize="@dimen/text_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/have_account" />
+
+                <TextView
+                    android:id="@+id/login_text_view_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/login_hint"
+                    android:textColor="@color/main_blue" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/verf_background"
+    android:orientation="vertical">
+
+        <EditText
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:id="@+id/verfication_code_edit_text"
+            android:singleLine="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="@dimen/text_size"
+            android:background="@drawable/verfication_text"
+            android:hint="@string/verf"
+            android:textAlignment="center"
+            android:inputType="textAutoComplete"
+            style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            />
+
+</LinearLayout>
