@@ -25,15 +25,27 @@
             android:name=".Activites.TestActivity"
             android:parentActivityName=".Activites.ProfileActivity"
             android:theme="@style/Test" />
-        <activity android:name=".Activites.ResultTestActivity"
+        <activity
+            android:name=".Activites.ResultTestActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/Test"
             android:parentActivityName=".Activites.ProfileActivity"
-            />
-        <activity android:name=".Activites.EditActivity"
-            android:theme="@style/Test"
+            android:theme="@style/Test" />
+        <activity
+            android:name=".Activites.EditActivity"
+            android:label="Edit Profile"
             android:parentActivityName=".Activites.ProfileActivity"
-            ></activity>
+            android:theme="@style/Test" />
+        <activity
+            android:name=".Activites.AddPostActivity"
+            android:label="Add Post"
+            android:parentActivityName=".Activites.ProfileActivity"
+            android:theme="@style/Test" />
+        <activity
+            android:name=".Activites.ShowAllPostsActivity"
+            android:label="All Posts"
+            android:parentActivityName=".Activites.ProfileActivity"
+            android:theme="@style/Test" />
+        <activity android:name=".Activites.PostActivity"></activity>
     </application>
 
 </manifest>

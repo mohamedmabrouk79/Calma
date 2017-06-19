@@ -244,8 +244,6 @@
     <string name="laziness">Laziness</string>
     <string name="Tension">Tension</string>
     <string name="Depression">Depression</string>
-    <string name="prev">Prev</string>
-    <string name="next">Next</string>
     <string name="findDoctor">found  Doctor</string>
     <string name="cancel">Cancel</string>
     <string name="fine">نسبه الاكتئاب عندك ضعيفه</string>
@@ -256,4 +254,8 @@
     <string name="new_password">Enter New Password</string>
     <string name="Doctors">Doctors</string>
     <string name="view_profile">View</string>
+    <string name="docttor_name">Enter Doctor Name or Illness</string>
+    <string name="upgrade">Upgrade To Doctor</string>
+    <string name="addpost">Write Your Post here</string>
+    <string name="puplish">Publish Post</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.mohamed.calma.ViewHolder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.PopupMenu;
@@ -10,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mohamed.calma.Activites.AddPostActivity;
 import com.example.mohamed.calma.Activites.EditActivity;
 import com.example.mohamed.calma.R;
 import com.example.mohamed.calma.model.Header;
 import com.example.mohamed.calma.model.User;
+
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -23,7 +27,7 @@ import com.squareup.picasso.Picasso;
  */
 
 public class HeaderHolder extends RecyclerView.ViewHolder {
-    private ImageView userImageView;
+    private KenBurnsView userImageView;
     private TextView userName;
     private TextView followers;
     private TextView articles;
@@ -40,7 +44,7 @@ public class HeaderHolder extends RecyclerView.ViewHolder {
         mUser=user;
         mContext=context;
         mDatabaseReference= FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUserPhone());
-        userImageView = (ImageView) itemView.findViewById(R.id.user_image_view);
+        userImageView = (KenBurnsView) itemView.findViewById(R.id.user_image_profile_header);
         userName= (TextView) itemView.findViewById(R.id.user_name_header);
         followers= (TextView) itemView.findViewById(R.id.followers_number);
         articles= (TextView) itemView.findViewById(R.id.articles_number);
@@ -64,19 +68,27 @@ public class HeaderHolder extends RecyclerView.ViewHolder {
     }
 
   private void About(){
-      about.setOnClickListener(view ->{
+      about.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
 
+          }
       });
   }
 
   private void Schedule(){
-      schedule.setOnClickListener(view ->{
+      schedule.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
 
+          }
       });
   }
 
     private void EditAction(){
-        select.setOnClickListener(v->{
+        select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(mContext, select);
                 popup.getMenuInflater()
                         .inflate(R.menu.edit_menu, popup.getMenu());
@@ -91,7 +103,8 @@ public class HeaderHolder extends RecyclerView.ViewHolder {
                                 mContext.startActivity(EditActivity.newIntent(mContext,mUser));
                                 return true;
                             case R.id.add_post:
-
+                                mContext.startActivity(AddPostActivity.newIntent(mContext,mUser));
+                                ((Activity)mContext).finish();
                                 return true;
                         }
                         return true;
@@ -101,6 +114,7 @@ public class HeaderHolder extends RecyclerView.ViewHolder {
                 popup.show();
 
 
+            }
         });
     }
 }

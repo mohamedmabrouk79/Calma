@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,9 @@ import com.example.mohamed.calma.Activites.ProfileActivity;
 import com.example.mohamed.calma.R;
 import com.example.mohamed.calma.model.CheckConnection;
 import com.example.mohamed.calma.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -109,7 +113,7 @@ public class RegisterFragment extends Fragment {
         mLoginView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(LoginActivity.newIntent(getActivity()));
+                startActivity(LoginActivity.newIntent(getActivity(),false,null));
                 getActivity().finish();
             }
         });
@@ -121,13 +125,23 @@ public class RegisterFragment extends Fragment {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               String name=mNameText.getText().toString().trim();
-                String phone=mMobileNumnText.getText().toString().trim();
-                String country=mSpinner.getSelectedItem().toString();
-                String password=mPasswordText.getText().toString().trim();
+               final String name=mNameText.getText().toString().trim();
+                final String phone=mMobileNumnText.getText().toString().trim();
+                final String country=mSpinner.getSelectedItem().toString();
+                final String password=mPasswordText.getText().toString().trim();
                 String confirmpassword=mRepeatText.getText().toString();
-                mFemale.setOnClickListener(t-> gender="female");
-                mMaleButton.setOnClickListener(t->gender="male");
+                mFemale.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gender="female";
+                    }
+                });
+                mMaleButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gender="male";
+                    }
+                });
                 if (TextUtils.isEmpty(name)){
                     Toast.makeText(getActivity(), "Enter Name", Toast.LENGTH_SHORT).show();
                 }else if (TextUtils.isEmpty(phone)){
@@ -141,24 +155,28 @@ public class RegisterFragment extends Fragment {
 
                 }else {
                     mProgressDialog.show();
-                  mFirebaseAuth.createUserWithEmailAndPassword(phone+"@yahoo.com",password).addOnCompleteListener(view ->{
-                     if (view.isSuccessful()){
-                         DatabaseReference mReference=mDatabaseReference.child(phone);
-                         User user=new User(name,phone,null,"user",password,country,mDate);
-                         mReference.child("name").setValue(name);
-                         mReference.child("phone").setValue(phone);
-                         mReference.child("password").setValue(password);
-                         mReference.child("country").setValue(country);
-                         mReference.child("gender").setValue(gender);
-                         mReference.child("image").setValue("null");
-                         mReference.child("date").setValue(mDate);
-                         mProgressDialog.dismiss();
-                         startActivity(ProfileActivity.newIntent(getActivity(),user));
-                         getActivity().finish();
-                     }else{
-                         mProgressDialog.dismiss();
-                         Toast.makeText(getActivity(), "Register Fail", Toast.LENGTH_SHORT).show();
-                     }
+                  mFirebaseAuth.createUserWithEmailAndPassword(phone+"@yahoo.com",password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                      @Override
+                      public void onComplete(@NonNull Task<AuthResult> task) {
+                          if (task.isSuccessful()){
+                              DatabaseReference mReference=mDatabaseReference.child(phone);
+                              User user=new User(name,phone,null,"user",password,country,mDate);
+                              mReference.child("name").setValue(name);
+                              mReference.child("phone").setValue(phone);
+                              mReference.child("password").setValue(password);
+                              mReference.child("country").setValue(country);
+                              mReference.child("gender").setValue(gender);
+                              mReference.child("image").setValue("null");
+                              mReference.child("date").setValue(mDate);
+                              mReference.child("type").setValue("user");
+                              mProgressDialog.dismiss();
+                              startActivity(ProfileActivity.newIntent(getActivity(),user));
+                              getActivity().finish();
+                          }else{
+                              mProgressDialog.dismiss();
+                              Toast.makeText(getActivity(), "Register Fail", Toast.LENGTH_SHORT).show();
+                          }
+                      }
                   });
                 }
 

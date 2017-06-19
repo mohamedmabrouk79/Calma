@@ -39,6 +39,7 @@ import java.util.concurrent.Executor;
  */
 
 public class LoginFragment extends Fragment {
+    private static final String UPDATED="UPDATED";
     private EditText mPhone;
     private EditText mPasswoord;
     private Button mLoginButton;
@@ -48,9 +49,15 @@ public class LoginFragment extends Fragment {
     private DatabaseReference mDatabaseReference;
     private User mUser;
     private ProgressDialog mProgressDialog;
+    private boolean isUpadted;
 
-    public static LoginFragment newInstance(){
-        return new LoginFragment();
+    public static LoginFragment newInstance(boolean isUpadted,String email){
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("email",email);
+        bundle.putSerializable(UPDATED,isUpadted);
+        LoginFragment fragment=new LoginFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
     @Nullable
     @Override
@@ -66,7 +73,14 @@ public class LoginFragment extends Fragment {
         mProgressDialog=new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Log in ....");
         if (CheckConnection.isNetworkAvailableAndConnected(getActivity())&& CheckConnection.isNetworkAvailableAndConnected(getActivity())){
-            Login();
+
+            if (isUpadted){
+               mPhone.setText((String)getArguments().getSerializable("email"));
+            }
+
+
+                Login();
+
         }else {
             Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
@@ -79,40 +93,42 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
              startActivity(RegisterActivity.newIntent(getActivity()));
+                getActivity().finish();
             }
         });
     }
 
     private void Login(){
-        mLoginButton.setOnClickListener(v -> {
-            if (CheckConnection.isNetworkAvailableAndConnected(getActivity())&& CheckConnection.isNetworkAvailableAndConnected(getActivity())){
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CheckConnection.isNetworkAvailableAndConnected(getActivity())&& CheckConnection.isNetworkAvailableAndConnected(getActivity())){
+                    String email=mPhone.getText().toString().trim();
+                    String password=mPasswoord.getText().toString().trim();
+                    if (TextUtils.isEmpty(email)){
+                        Toast.makeText(getActivity(), "Enter your Phone", Toast.LENGTH_SHORT).show();
+                    }else if (TextUtils.isEmpty(password)){
+                        Toast.makeText(getActivity(), "Enter your Password", Toast.LENGTH_SHORT).show();
+                    }else {
+                        mProgressDialog.show();
+                        mFirebaseAuth.signInWithEmailAndPassword(email+"@yahoo.com",password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
 
-
-            String email=mPhone.getText().toString().trim();
-            String password=mPasswoord.getText().toString().trim();
-            if (TextUtils.isEmpty(email)){
-                Toast.makeText(getActivity(), "Enter your Phone", Toast.LENGTH_SHORT).show();
-            }else if (TextUtils.isEmpty(password)){
-                Toast.makeText(getActivity(), "Enter your Password", Toast.LENGTH_SHORT).show();
-            }else {
-                mProgressDialog.show();
-                mFirebaseAuth.signInWithEmailAndPassword(email+"@yahoo.com",password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                                    FirebaseUser user = mFirebaseAuth.getCurrentUser();
                                     DatabaseReference mReference=mDatabaseReference.child(user.getEmail().replace("@yahoo.com",""));
                                     mReference.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             Map<String,String> map= (Map<String, String>) dataSnapshot.getValue();
                                             mUser=new User(
-                                                    map.get("name"),map.get("phone"),map.get("image"),"user",map.get("password"),map.get("country")
+                                                    map.get("name"),map.get("phone"),map.get("image"),map.get("type"),map.get("password"),map.get("country")
                                                     ,map.get("date")
                                             );
                                             mProgressDialog.dismiss();
                                             startActivity(ProfileActivity.newIntent(getActivity(),mUser));
+                                            getActivity().finish();
                                         }
 
                                         @Override
@@ -120,16 +136,17 @@ public class LoginFragment extends Fragment {
 
                                         }
                                     });
-                        }else{
-                      mProgressDialog.dismiss();
-                            Toast.makeText(getActivity(), "Log in Is Fail ", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                                }else{
+                                    mProgressDialog.dismiss();
+                                    Toast.makeText(getActivity(), "Log in Is Fail ", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-                });
-            }
-            }else {
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }else {
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -149,6 +166,7 @@ public class LoginFragment extends Fragment {
                             ,map.get("date")
                     );
                     startActivity(ProfileActivity.newIntent(getActivity(),mUser));
+                    getActivity().finish();
                 }
 
                 @Override

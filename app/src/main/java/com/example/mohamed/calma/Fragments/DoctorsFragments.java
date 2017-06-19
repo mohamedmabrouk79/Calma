@@ -18,6 +18,7 @@ import com.example.mohamed.calma.model.Doctor;
 import com.example.mohamed.calma.model.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,7 +27,6 @@ import java.util.List;
 
 public class DoctorsFragments extends Fragment {
     private RecyclerView mRecyclerView;
-
     public static DoctorsFragments newFragment(){
         return  new DoctorsFragments();
     }
@@ -41,7 +41,6 @@ public class DoctorsFragments extends Fragment {
     }
 
     private void UpdateUi(){
-
         mRecyclerView.setAdapter(new DoctorAdapter(getDoctors()));
     }
 
@@ -49,7 +48,11 @@ public class DoctorsFragments extends Fragment {
         List<Doctor> doctors=new ArrayList<>();
         for (int i = 0; i <10 ; i++) {
             Doctor doctor=new Doctor();
-            doctor.setName("Mohamed #"+(i+1));
+            doctor.setName("mohamed #"+(i+1));
+            doctor.setPriceBerHour(((i+1)*100)/(i+1));
+            doctor.setRate(4);
+            List<String> specialty= Arrays.asList("depression","lazy");
+            doctor.setSpecialty(specialty);
             doctors.add(doctor);
         }
         return  doctors;
@@ -68,7 +71,7 @@ public class DoctorsFragments extends Fragment {
         }
         @Override
         public DoctorHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view=LayoutInflater.from(getActivity()).inflate(R.layout.doctor_view,parent,false);
+            View view=LayoutInflater.from(getActivity()).inflate(R.layout.find_doctor_view,parent,false);
 
             return new DoctorHolder(view,getActivity());
         }

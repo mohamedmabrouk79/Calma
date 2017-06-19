@@ -22,12 +22,12 @@
         >
 
         <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/doctor_profile_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/background"
             />
-
         <TextView
 
             android:id="@+id/user_name_header"

@@ -25,20 +25,17 @@
                 android:textSize="@dimen/text_big_size"
                 android:textStyle="bold" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:theme="@style/MyEditTextTheme"
-                app:hintTextAppearance="@style/FloatingLabel">
 
                 <EditText
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/verfication_text"
                     android:id="@+id/name_edit_text"
                     style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="30dp"
+                    android:padding="10dp"
                     android:layout_marginRight="30dp"
                     android:drawableStart="@drawable/ic_action_person"
                     android:hint="@string/name_hint"
@@ -47,7 +44,6 @@
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textSize="@dimen/text_size" />
 
-            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 style="?android:attr/listSeparatorTextViewStyle"
@@ -76,20 +72,17 @@
                     android:spinnerMode="dialog" />
             </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:theme="@style/MyEditTextTheme"
-                app:hintTextAppearance="@style/FloatingLabel">
 
                 <EditText
+                    android:background="@drawable/verfication_text"
                     android:id="@+id/phone_number_register"
                     style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="30dp"
+                    android:padding="10dp"
                     android:layout_marginRight="30dp"
                     android:drawableStart="@drawable/ic_action_call_drk"
                     android:hint="@string/mobile_number_hint"
@@ -98,19 +91,15 @@
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textSize="@dimen/text_size" />
 
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:theme="@style/MyEditTextTheme"
-                app:hintTextAppearance="@style/FloatingLabel">
 
                 <EditText
+
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/verfication_text"
                     android:id="@+id/password_register_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
@@ -122,19 +111,14 @@
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textSize="@dimen/text_size" />
 
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:theme="@style/MyEditTextTheme"
-                app:hintTextAppearance="@style/FloatingLabel">
 
                 <EditText
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/verfication_text"
                     android:id="@+id/repeat_password_register_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
@@ -146,7 +130,6 @@
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textSize="@dimen/text_size" />
 
-            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 style="?android:attr/listSeparatorTextViewStyle"

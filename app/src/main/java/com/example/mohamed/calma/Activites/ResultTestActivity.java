@@ -12,9 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.mohamed.calma.Fragments.ArticleFragment;
-import com.example.mohamed.calma.Fragments.Article_Fragment;
 import com.example.mohamed.calma.Fragments.DoctorsFragments;
-import com.example.mohamed.calma.Fragments.LoginFragment;
+import com.example.mohamed.calma.Fragments.FragmentArticles;
 import com.example.mohamed.calma.Fragments.VideoResultFragment;
 import com.example.mohamed.calma.R;
 
@@ -35,7 +34,7 @@ public class ResultTestActivity extends AppCompatActivity {
         setContentView(R.layout.result_test_activity);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        addFragment(ArticleFragment.newFragment(getIntent().getStringExtra(ArticleFragment.TYPE)));
+        addFragment(FragmentArticles.newFragment(getIntent().getStringExtra(ArticleFragment.TYPE)));
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -45,7 +44,7 @@ public class ResultTestActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.article_menu:
-                    addFragment(ArticleFragment.newFragment(getIntent().getStringExtra(ArticleFragment.TYPE)));
+                    addFragment(FragmentArticles.newFragment(getIntent().getStringExtra(ArticleFragment.TYPE)));
                     return true;
                 case R.id.video_menu:
                     addFragment(VideoResultFragment.newFragment(getIntent().getStringExtra(ArticleFragment.TYPE)));

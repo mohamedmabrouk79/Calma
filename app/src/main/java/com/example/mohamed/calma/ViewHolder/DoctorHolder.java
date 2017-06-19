@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,27 +19,45 @@ import com.squareup.picasso.Picasso;
  */
 
 public class DoctorHolder extends RecyclerView.ViewHolder {
-    private ImageView mImageView;
-    private TextView mTextView;
+    private ImageView doctorImageView;
+    private TextView doctorName;
+    private Button  viewProfile;
+    private TextView priceberHour;
+    private TextView specialty;
+    private TextView priceBer30Min;
+    private RatingBar mRatingBar;
     private Context mContext;
-    private Button mButton;
     public DoctorHolder(View itemView,Context context) {
         super(itemView);
         mContext=context;
-        mImageView= (ImageView) itemView.findViewById(R.id.doctor_result_image_view);
-        mTextView= (TextView) itemView.findViewById(R.id.result_doctor_name);
-        mButton= (Button) itemView.findViewById(R.id.view_profile);
+        doctorImageView= (ImageView) itemView.findViewById(R.id.doctor_result_image_view);
+        doctorName= (TextView) itemView.findViewById(R.id.result_doctor_name);
+        viewProfile= (Button) itemView.findViewById(R.id.view_profile);
+        priceBer30Min= (TextView) itemView.findViewById(R.id.price_per_30_min);
+        priceberHour= (TextView) itemView.findViewById(R.id.price_per_60_min);
+        mRatingBar= (RatingBar) itemView.findViewById(R.id.ratingBar);
+        specialty= (TextView) itemView.findViewById(R.id.specialty_doctor);
         ViewProfile();
     }
 
     private void ViewProfile(){
-        mButton.setOnClickListener(w ->{
-            Toast.makeText(mContext, "Doctor Profile", Toast.LENGTH_SHORT).show();
+        viewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
         });
     }
 
-    public void bind(Doctor testDoctor){
-        mTextView.setText(testDoctor.getName());
-        Picasso.with(mContext).load(testDoctor.getImage()).into(mImageView);
+    public void bind(Doctor doctor){
+        doctorName.setText(doctor.getName());
+        priceBer30Min.setText("EGP "+String.valueOf(doctor.getPriceBerHour()/2)+".00");
+        priceberHour.setText("EGP "+String.valueOf(doctor.getPriceBerHour())+".00");
+        String s=null;
+        for (String s1: doctor.getSpecialty()){
+            s+="["+s1+"] ";
+        }
+        specialty.setText(s);
+        mRatingBar.setProgress(doctor.getRate());
     }
 }

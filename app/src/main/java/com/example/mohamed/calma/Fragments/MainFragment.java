@@ -73,12 +73,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ProgressDialog progressDialog=new ProgressDialog(getActivity());
+        final ProgressDialog progressDialog=new ProgressDialog(getActivity());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("Loading ....");
         if (isNetworkAvailableAndConnected()&& isNetworkConnected()) {
-
-
             FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
             if (currentUser != null) {
                 progressDialog.show();
@@ -87,16 +85,21 @@ public class MainFragment extends Fragment {
                 mReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Map<String, String> map = (Map<String, String>) dataSnapshot.getValue();
+                        try {
+
+
+                            Map<String, String> map = (Map<String, String>) dataSnapshot.getValue();
 
                             mUser = new User(
-                                    map.get("name"), map.get("phone"), map.get("image"), "user", map.get("password"), map.get("country")
+                                    map.get("name"), map.get("phone"), map.get("image"), map.get("type"), map.get("password"), map.get("country")
                                     , map.get("date")
                             );
                             startActivity(ProfileActivity.newIntent(getActivity(), mUser));
                             getActivity().finish();
-                        progressDialog.dismiss();
+                            progressDialog.dismiss();
+                        }catch (Exception e){
 
+                        }
                     }
 
                     @Override
@@ -113,7 +116,7 @@ public class MainFragment extends Fragment {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            startActivity(LoginActivity.newIntent(getActivity()));
+            startActivity(LoginActivity.newIntent(getActivity(),false,null));
                 getActivity().finish();
             }
         });
@@ -124,6 +127,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
         startActivity(RegisterActivity.newIntent(getActivity()));
+                getActivity().finish();
             }
         });
     }

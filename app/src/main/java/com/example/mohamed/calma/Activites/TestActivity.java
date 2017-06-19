@@ -1,6 +1,7 @@
 package com.example.mohamed.calma.Activites;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -77,25 +78,28 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void Next(){
-        nextButton.setOnClickListener(view->{
-            if (count==mapWork.size()-1){
-                nextButton.setText("Get Result");
-               // prevButton.setEnabled(true);
-                switch (type){
-                    case "Depression":
-                        getResult("الاكتئاب");
-                        break;
-                    case "Tension":
-                        getResult("التوتر");
-                        break;
-                    case "Laziness":
-                        getResult("الكسل");
-                        break;
-                }
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count==mapWork.size()-1){
+                    nextButton.setText("Get Result");
+                    // prevButton.setEnabled(true);
+                    switch (type){
+                        case "Depression":
+                            getResult("الاكتئاب");
+                            break;
+                        case "Tension":
+                            getResult("التوتر");
+                            break;
+                        case "Laziness":
+                            getResult("الكسل");
+                            break;
+                    }
 
-            }else{
-                count++;
-                addFragment(TestFragmentSelected.newTestFragmentSelected(getQuaions(mapWork),getAnswers(mapWork),count));
+                }else{
+                    count++;
+                    addFragment(TestFragmentSelected.newTestFragmentSelected(getQuaions(mapWork),getAnswers(mapWork),count));
+                }
             }
         });
     }
@@ -103,10 +107,10 @@ public class TestActivity extends AppCompatActivity {
     private void getResult(String type){
       if (degree>=1 && degree<25){
           int unicode = 0x1F600;
-        showDailog("  نسبه"+type+"لديك ضعيفه "+new String(Character.toChars(unicode)),type);
+        showDailog("  نسبه"+type+" لديك ضعيفه "+new String(Character.toChars(unicode)),type);
       }else if(degree>=25&& degree<50){
           int unicode = 0x1F612;
-          showDailog(" نسبه "+type+"لديك متوسطه "+new String(Character.toChars(unicode)),type);
+          showDailog(" نسبه "+type+" لديك متوسطه "+new String(Character.toChars(unicode)),type);
       }else if (degree>=50 && degree<75){
           int unicode = 0x1F625;
           showDailog(" نسبه "+type+" لديك كبيره "+new String(Character.toChars(unicode)),type);
@@ -116,23 +120,31 @@ public class TestActivity extends AppCompatActivity {
       }
     }
     AlertDialog.Builder builder;
-    private void showDailog(String message,String type){
+    private void showDailog(String message, final String type){
      builder=new AlertDialog.Builder(this);
         View view=LayoutInflater.from(this).inflate(R.layout.result_view,null);
         TextView textView= (TextView) view.findViewById(R.id.result);
          textView.setText(message);
-        Button findoctor= (Button) view.findViewById(R.id.find_doctor);
+        final Button findoctor= (Button) view.findViewById(R.id.find_doctor);
         Button cancel= (Button) view.findViewById(R.id.cancel_button);
-        builder.setView(view).setTitle(type+" Result ").setOnCancelListener(c->{
-            finish();
+        builder.setView(view).setTitle(type+" Result ").setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                finish();
+            }
         }).show();
 
-        findoctor.setOnClickListener(v->{
-          startActivity(ResultTestActivity.newIntent(this,type));
-          finish();
+        findoctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(ResultTestActivity.newIntent(TestActivity.this,type));
+            }
         });
-        cancel.setOnClickListener(c ->{
-         finish();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
 
     }
@@ -141,7 +153,10 @@ public class TestActivity extends AppCompatActivity {
 
     private List<String> getQuaions(Map<String,String[]> map){
         List<String>  keys=new ArrayList<>();
-        map.keySet().stream().forEach(e -> keys.add(e));
+       // map.keySet().stream().forEach(e -> keys.add(e));
+        for(String s:map.keySet()){
+            keys.add(s);
+        }
 
 
         return keys;
@@ -149,7 +164,10 @@ public class TestActivity extends AppCompatActivity {
 
     private List<String[]> getAnswers(Map<String,String[]> map){
         List<String[]> value=new ArrayList<>();
-        map.values().stream().forEach(e ->value.add(e));
+       // map.values().stream().forEach(e ->value.add(e));
+        for(String[] s:map.values()){
+            value.add(s);
+        }
         return value;
     }
 

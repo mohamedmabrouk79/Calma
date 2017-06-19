@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.example.mohamed.calma.R;
 import com.example.mohamed.calma.ViewHolder.HeaderHolder;
 import com.example.mohamed.calma.ViewHolder.PostHolder;
+import com.example.mohamed.calma.ViewHolder.UserHeaderHolder;
 import com.example.mohamed.calma.model.Header;
 import com.example.mohamed.calma.model.User;
 import com.example.mohamed.calma.model.UserPost;
@@ -22,26 +23,34 @@ import java.util.List;
 public class UsrProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    private String mPostId;
     Header header;
     List<UserPost> listItems;
     User mUser;
 
-    public UsrProfileAdapter(Header mHeader, List<UserPost> mUserPosts,User user){
+    public UsrProfileAdapter(Header mHeader, List<UserPost> mUserPosts,User user,String postId){
         this.header=mHeader;
         this.listItems= mUserPosts;
+        mPostId=postId;
         mUser=user;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType==TYPE_HEADER){
             Log.v("Type",TYPE_HEADER+"");
-            View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.header_view_user,parent,false);
-            Log.v("Type",view+"");
-            return  new HeaderHolder(view,parent.getContext(),mUser);
+            View view = null;
+            if (mUser.getType().equals("user")){
+                view= LayoutInflater.from(parent.getContext()).inflate(R.layout.user_header,parent,false);
+                return  new UserHeaderHolder(view,parent.getContext(),mUser);
+
+            }else {
+                 view= LayoutInflater.from(parent.getContext()).inflate(R.layout.doctor_header,parent,false);
+                return  new HeaderHolder(view,parent.getContext(),mUser);
+            }
         }else if (viewType==TYPE_ITEM){
             Log.v("Type",TYPE_ITEM+"");
             View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.post,parent,false);
-             return new PostHolder(view,parent.getContext());
+             return new PostHolder(view,parent.getContext(),mPostId,mUser);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
@@ -50,6 +59,10 @@ public class UsrProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
    if (holder instanceof HeaderHolder){
         HeaderHolder headerHolder= (HeaderHolder) holder;
+       Log.v("Type",header.getUserName()+"");
+       headerHolder.BindData(header);
+   }else if(holder instanceof UserHeaderHolder){
+       UserHeaderHolder headerHolder= (UserHeaderHolder) holder;
        Log.v("Type",header.getUserName()+"");
        headerHolder.BindData(header);
    }else if (holder instanceof PostHolder){

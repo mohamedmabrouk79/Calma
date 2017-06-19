@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -89,10 +90,13 @@ public class EditActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,mList);
         mSpinner.setAdapter(arrayAdapter);
         mStorageReference= FirebaseStorage.getInstance().getReference().child("UsersImage");
-        userImage.setOnClickListener(v ->{
-            Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(intent,0);
+        userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent,0);
+            }
         });
         PutData();
         Save();
@@ -112,90 +116,108 @@ public class EditActivity extends AppCompatActivity {
     private void PutData(){
         mNameText.setText(mUser.getUserName());
         mMobileNumnText.setText(mUser.getUserPhone());
+        if (!TextUtils.isEmpty(mUser.getUserImageUrl())){
+            imageUri=Uri.parse(mUser.getUserImageUrl());
+            Picasso.with(this).load(Uri.parse(mUser.getUserImageUrl())).into(userImage);
+        }
         Toast.makeText(this, mUser.getDate()+"", Toast.LENGTH_SHORT).show();
     }
 
     private void Save(){
-        save.setOnClickListener(v ->{
-            FirebaseUser user=mFirebaseAuth.getCurrentUser();
-            String name=mNameText.getText().toString().trim();
-            String phone=mMobileNumnText.getText().toString().trim();
-            String country=mSpinner.getSelectedItem().toString();
-            String oldpassword=mPasswordText.getText().toString().trim();
-            String confirmpassword=mRepeatText.getText().toString();
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final FirebaseUser user=mFirebaseAuth.getCurrentUser();
+                final String name=mNameText.getText().toString().trim();
+                final String phone=mMobileNumnText.getText().toString().trim();
+                final String country=mSpinner.getSelectedItem().toString();
+                final String oldpassword=mPasswordText.getText().toString().trim();
+                final String confirmpassword=mRepeatText.getText().toString();
 
-            mFemale.setOnClickListener(w ->{gender="female";});
-            mMaleButton.setOnClickListener(w ->{gender="male";});
-            if (TextUtils.isEmpty(name)){
-                Toast.makeText(this, "Enter Name", Toast.LENGTH_SHORT).show();
-            }else if (TextUtils.isEmpty(phone)){
-                Toast.makeText(this, "Enter Phone Number", Toast.LENGTH_SHORT).show();
 
-            }else if(!oldpassword.equals(mUser.getPass())){
-                Toast.makeText(this, "Enter correct  Password", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(name)){
+                    Toast.makeText(EditActivity.this, "Enter Name", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(phone)){
+                    Toast.makeText(EditActivity.this, "Enter Phone Number", Toast.LENGTH_SHORT).show();
 
-            }else if (confirmpassword.length()<6){
-                Toast.makeText(this, "Password must more 6 ", Toast.LENGTH_SHORT).show();
+                }else if(!oldpassword.equals(mUser.getPass())){
+                    Toast.makeText(EditActivity.this, "Enter correct  Password", Toast.LENGTH_SHORT).show();
 
-            }else if (TextUtils.isEmpty(imageUri.toString())) {
+                }else if (confirmpassword.length()<6){
+                    Toast.makeText(EditActivity.this, "Password must more 6 ", Toast.LENGTH_SHORT).show();
 
-            }else{
-                mProgressDialog.show();
-                AuthCredential credential = EmailAuthProvider
-                        .getCredential(mUser.getUserPhone()+"@yahoo.com", mUser.getPass());
-                mStorageReference.child(phone);
-                mStorageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                }else {
+                    if (TextUtils.isEmpty(imageUri.toString())) {
+
+                    } else {
+                        mProgressDialog.show();
+                        final AuthCredential credential = EmailAuthProvider
+                                .getCredential(mUser.getUserPhone() + "@yahoo.com", mUser.getPass());
+                        StorageReference mReference=mStorageReference.child(imageUri.getLastPathSegment());
+                        mReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
+                            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                                user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
 
-                        user.updateEmail(phone+"@yahoo.com").addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
-                                    user.updatePassword(confirmpassword).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()){
-                                                DatabaseReference mReference=mDatabaseReference.child(mUser.getUserPhone());
-                                                mReference.removeValue();
-                                                     DatabaseReference reference=FirebaseDatabase.getInstance().getReference().child("Users").child(phone);
-                                                        reference.child("name").setValue(name);
-                                                        reference.child("phone").setValue(phone);
-                                                        reference.child("password").setValue(confirmpassword);
-                                                        reference.child("country").setValue(country);
-                                                        reference.child("gender").setValue(gender);
-                                                        reference.child("date").setValue(mUser.getDate());
-                                                        reference.child("image").setValue(""+taskSnapshot.getDownloadUrl());
-                                                        mProgressDialog.dismiss();
-                                            }   else{
-                                                mProgressDialog.dismiss();
-                                                Toast.makeText(EditActivity.this, "Password is not updated", Toast.LENGTH_SHORT).show();
+                                        user.updateEmail(phone + "@yahoo.com").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    user.updatePassword(confirmpassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                DatabaseReference mReference = mDatabaseReference.child(mUser.getUserPhone());
+                                                                mReference.removeValue();
+                                                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(phone);
+                                                                reference.child("name").setValue(name);
+                                                                reference.child("phone").setValue(phone);
+                                                                reference.child("password").setValue(confirmpassword);
+                                                                reference.child("country").setValue(country);
+                                                                //reference.child("gender").setValue(mUser.get);
+                                                                reference.child("date").setValue(mUser.getDate());
+                                                                reference.child("type").setValue(mUser.getType());
+                                                                reference.child("image").setValue("" + taskSnapshot.getDownloadUrl());
+                                                                String email = mFirebaseAuth.getCurrentUser().getEmail();
+
+                                                                email=email.substring(0,email.indexOf("@"));
+                                                                mFirebaseAuth.signOut();
+                                                                mProgressDialog.dismiss();
+                                                                startActivity(LoginActivity.newIntent(EditActivity.this,true,email));
+                                                                finish();
+                                                            } else {
+                                                                mProgressDialog.dismiss();
+                                                                Toast.makeText(EditActivity.this, "Password is not updated", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    });
+                                                } else {
+                                                    mProgressDialog.dismiss();
+                                                    Toast.makeText(EditActivity.this, "Email is not updated" + task.getException(), Toast.LENGTH_SHORT).show();
+                                                }
                                             }
-                                        }
-                                    });
-                                } else{
-                                    mProgressDialog.dismiss();
-                                    Toast.makeText(EditActivity.this, "Email is not updated"+task.getException(), Toast.LENGTH_SHORT).show();
-                                }
+                                        });
+                                    }
+                                });
+                                /**** end **/
                             }
                         });
-                            }
-                        });
-                        /**** end **/
+
                     }
-                });
+                }
 
             }
-
         });
     }
 
     private void Cancel(){
-        cancel.setOnClickListener(v ->{
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
         });
     }
 }

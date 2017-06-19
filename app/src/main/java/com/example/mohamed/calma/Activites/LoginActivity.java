@@ -14,13 +14,16 @@ import com.example.mohamed.calma.SingleFragamentActivity;
 
 public class LoginActivity extends SingleFragamentActivity {
 
-    public static Intent newIntent(Context context){
+    public static Intent newIntent(Context context,boolean isUpadted,String email){
         Intent intent=new Intent(context,LoginActivity.class);
+        intent.putExtra("updated",isUpadted);
+        intent.putExtra("email",email);
         return intent;
     }
     @Override
     public Fragment CreateFragment() {
-        return LoginFragment.newInstance();
+        boolean isUpdted=getIntent().getBooleanExtra("updated",false);
+        return LoginFragment.newInstance(isUpdted,getIntent().getStringExtra("email"));
     }
 
 

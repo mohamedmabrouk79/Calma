@@ -8,6 +8,10 @@
     <item name="colorAccent">@color/colorAccent</item>
 </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/gold_yellow</item>
+        <item name="colorControlActivated">@color/light_grey</item>
+    </style>
     <style name="Test" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>

@@ -57,18 +57,33 @@ public class TestFragmentSelected extends Fragment {
     }
 
     private void test(){
-        answer1.setOnClickListener(view ->{
-            currentDegree=1;
+        answer1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentDegree=1;
+            }
         });
 
-        answer2.setOnClickListener(view ->{
-            currentDegree=3;
+        answer2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentDegree=3;
+
+            }
         });
-        answer3.setOnClickListener(view ->{
-           currentDegree=6;
+        answer3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentDegree=6;
+
+            }
         });
-        answer4.setOnClickListener(view ->{
-            currentDegree=9;
+        answer4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentDegree=9;
+
+            }
         });
 
     }

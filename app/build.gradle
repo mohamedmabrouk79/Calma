@@ -10,10 +10,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        jackOptions {
-            enabled true
-        }
+
     }
+
 
     buildTypes {
         release {
@@ -28,6 +27,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -47,14 +47,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'com.firebaseui:firebase-ui:0.6.2'
     testCompile 'junit:junit:4.12'
-    compile files('libs/YouTubeAndroidPlayerApi.jar')
 }
-
-
-
-
-
-
 
 
 

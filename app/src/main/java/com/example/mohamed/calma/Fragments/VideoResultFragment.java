@@ -1,6 +1,7 @@
 package com.example.mohamed.calma.Fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -64,7 +66,7 @@ public class VideoResultFragment extends Fragment {
         FirebaseRecyclerAdapter<String,VideoHolder> adapter=new FirebaseRecyclerAdapter<String,VideoHolder>
                 (String.class,R.layout.result_video_view,VideoHolder.class,mDatabaseReference) {
             @Override
-            protected void populateViewHolder(VideoHolder viewHolder, String model, int position) {
+            protected void populateViewHolder(VideoHolder viewHolder, final String model, int position) {
                 viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -73,7 +75,7 @@ public class VideoResultFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
-                YouTubeThumbnailLoader.OnThumbnailLoadedListener onThumbnailLoadedListener=new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
+                final YouTubeThumbnailLoader.OnThumbnailLoadedListener onThumbnailLoadedListener=new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
                     @Override
                     public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s) {
                         youTubeThumbnailView.setVisibility(View.VISIBLE);
@@ -102,7 +104,9 @@ public class VideoResultFragment extends Fragment {
         };
 
         mRecyclerView.setAdapter(adapter);
+
     }
+
 
     @Override
     public void onResume() {
@@ -113,8 +117,10 @@ public class VideoResultFragment extends Fragment {
     public  static class  VideoHolder extends RecyclerView.ViewHolder {
         public YouTubeThumbnailView youTubeThumbnailView;
         public ImageView playButton;
+
         public VideoHolder(View itemView) {
             super(itemView);
+
             youTubeThumbnailView= (YouTubeThumbnailView) itemView.findViewById(R.id.youtube_thumbnail);
             playButton= (ImageView) itemView.findViewById(R.id.btnYoutube_player);
         }

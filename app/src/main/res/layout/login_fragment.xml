@@ -26,17 +26,12 @@
                 android:layout_gravity="center"
                 />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:theme="@style/MyEditTextTheme"
-                app:hintTextAppearance="@style/FloatingLabel"
-                >
 
                 <EditText
+                    android:padding="10dp"
+                    android:background="@drawable/verfication_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:id="@+id/phone_number"
                     android:singleLine="true"
@@ -50,18 +45,12 @@
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     />
 
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:theme="@style/MyEditTextTheme"
-                app:hintTextAppearance="@style/FloatingLabel"
-                >
+
 
                 <EditText
+                    android:background="@drawable/verfication_text"
+                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -76,7 +65,6 @@
                     android:padding="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat" />
 
-            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:layout_marginTop="25dp"

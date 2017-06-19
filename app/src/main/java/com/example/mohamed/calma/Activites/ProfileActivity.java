@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.example.mohamed.calma.Adapters.ProfileAdapter;
 import com.example.mohamed.calma.R;
 import com.example.mohamed.calma.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -154,13 +151,12 @@ public class ProfileActivity extends AppCompatActivity
 
                 break;
             case  R.id.Dashbord:
-
                 break;
             case  R.id.Messages:
 
                 break;
-            case  R.id.Videos_item:
-
+            case  R.id.posts_item:
+              startActivity(ShowAllPostsActivity.newIntent(this,mUser));
                 break;
             case  R.id.Article_item:
 
@@ -174,6 +170,7 @@ public class ProfileActivity extends AppCompatActivity
             case  R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(MainActivity.newIntent(this));
+                finish();
                 break;
         }
 
@@ -181,4 +178,6 @@ public class ProfileActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

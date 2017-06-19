@@ -27,7 +27,8 @@ public class ProfileAdapter extends FragmentPagerAdapter {
         switch (position){
             case 0:
                 // profile Fragment
-                return UserProfileFragment.newInstance(mUser);
+                    return UserProfileFragment.newInstance(mUser);
+
             case 1:
                 //therapist fragment
                 return FindTherapistFragment.newFragment();
